@@ -40,6 +40,40 @@ let finalTimeDisplay = "0.0s";
 // Scroll
 let valueY = 0;
 
+// Reset Game
+function playAgain() {
+	gamePage.addEventListener("click", startTimer);
+	scorePage.hidden = true;
+	splashPage.hidden = false;
+	equationsArray = [];
+	playerGuessArray = [];
+	valueY = 0;
+	playAgainBtn.hidden = true;
+}
+
+// Show Score Page
+function showScorePage() {
+	// Show Play Again button after 1 second
+	setTimeout(() => {
+		playAgainBtn.hidden = false;
+	}, 1000);
+	gamePage.hidden = true;
+	scorePage.hidden = false;
+}
+
+// Format & Display Time in DOM
+function scoresToDOM() {
+	finalTimeDisplay = finalTime.toFixed(1);
+	baseTime = timePlayed.toFixed(1);
+	penaltyTime = penaltyTime.toFixed(1);
+	finalTimeEl.textContent = `${finalTimeDisplay}s`;
+	baseTimeEl.textContent = `Base Time: ${baseTime}s`;
+	penaltyTimeEl.textContent = `Penalty: +${penaltyTime}s`;
+	// Scroll to Top, go to Score Page
+	itemContainer.scrollTo({ top: 0, behavior: "instant" });
+	showScorePage();
+}
+
 // Stop Timer, Process Results, go to Score Page
 function checkTime() {
 	if (playerGuessArray.length == questionAmount) {
@@ -56,7 +90,7 @@ function checkTime() {
 		});
 		finalTime = timePlayed + penaltyTime;
 		console.log("timePlayed", timePlayed, "penaltyTime", penaltyTime, "finalTime", finalTime);
-		scoreToDOM();
+		scoresToDOM();
 	}
 }
 
@@ -82,7 +116,7 @@ function checkTime() {
 		});
 		finalTime = timePlayed + penaltyTime;
 		console.log("timePlayed", timePlayed, "penaltyTime", penaltyTime, "finalTime", finalTime);
-		scoreToDOM();
+		scoresToDOM();
 	}
 }
 
